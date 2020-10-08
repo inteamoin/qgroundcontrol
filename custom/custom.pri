@@ -22,32 +22,30 @@ DEFINES += GIT_VERSION=\"\\\"$$CUSTOM_QGC_VERSION\\\"\"
 
 message(Custom QGC Version: $${CUSTOM_QGC_VERSION})
 
-# Build a single flight stack by disabling APM support
-MAVLINK_CONF = common
-CONFIG  += QGC_DISABLE_APM_MAVLINK
-CONFIG  += QGC_DISABLE_APM_PLUGIN QGC_DISABLE_APM_PLUGIN_FACTORY
+# Build a single flight stack by disabling PX4 support
+CONFIG  += QGC_DISABLE_PX4_PLUGIN QGC_DISABLE_PX4_PLUGIN_FACTORY
 
-# We implement our own PX4 plugin factory
-CONFIG  += QGC_DISABLE_PX4_PLUGIN_FACTORY
+# We implement our own APM plugin factory
+CONFIG  += QGC_DISABLE_APM_PLUGIN_FACTORY
 
 # Branding
 
 DEFINES += CUSTOMHEADER=\"\\\"CustomPlugin.h\\\"\"
 DEFINES += CUSTOMCLASS=CustomPlugin
 
-TARGET   = CustomQGroundControl
-DEFINES += QGC_APPLICATION_NAME='"\\\"Custom QGroundControl\\\""'
+TARGET   = JatayuGCS
+DEFINES += QGC_APPLICATION_NAME='"\\\"Jatayu GCS\\\""'
 
 DEFINES += QGC_ORG_NAME=\"\\\"qgroundcontrol.org\\\"\"
 DEFINES += QGC_ORG_DOMAIN=\"\\\"org.qgroundcontrol\\\"\"
 
-QGC_APP_NAME        = "Custom QGroundControl"
-QGC_BINARY_NAME     = "CustomQGroundControl"
-QGC_ORG_NAME        = "Custom"
-QGC_ORG_DOMAIN      = "org.custom"
-QGC_ANDROID_PACKAGE = "org.custom.qgroundcontrol"
-QGC_APP_DESCRIPTION = "Custom QGroundControl"
-QGC_APP_COPYRIGHT   = "Copyright (C) 2020 QGroundControl Development Team. All rights reserved."
+QGC_APP_NAME        = "Jatayu GCS"
+QGC_BINARY_NAME     = "JatayuGCS"
+QGC_ORG_NAME        = "SDD"
+QGC_ORG_DOMAIN      = "org.sdd"
+QGC_ANDROID_PACKAGE = "org.sdd.jatayugcs"
+QGC_APP_DESCRIPTION = "Jatayu GroundControl Software"
+QGC_APP_COPYRIGHT   = "Copyright (C) 2020 Aries Development Team. All rights reserved."
 
 # Our own, custom resources
 RESOURCES += \
@@ -56,6 +54,9 @@ RESOURCES += \
 QML_IMPORT_PATH += \
    $$PWD/res
 
+WindowsBuild {
+    RC_ICONS = $$PWD/res/icons/JatayuGCS.ico
+}
 # Our own, custom sources
 SOURCES += \
     $$PWD/src/CustomPlugin.cc \

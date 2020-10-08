@@ -273,6 +273,7 @@
 		<file alias="VTOLLandingPatternEditor.qml">../src/PlanView/VTOLLandingPatternEditor.qml</file>
 		<file alias="QGroundControl/FlightMap/ProximityRadarMapView.qml">../src/FlightMap/MapItems/ProximityRadarMapView.qml</file>
 		<file alias="QGroundControl/FlightDisplay/ProximityRadarVideoView.qml">../src/FlightDisplay/ProximityRadarVideoView.qml</file>
+		<file alias="QGroundControl/FlightDisplay/ProximityRadarValues.qml">../src/FlightDisplay/ProximityRadarValues.qml</file>
 	</qresource>
 	<qresource prefix="/FirstRunPromptDialogs">
 		<file alias="UnitsFirstRunPrompt.qml">../src/FirstRunPromptDialogs/UnitsFirstRunPrompt.qml</file>
