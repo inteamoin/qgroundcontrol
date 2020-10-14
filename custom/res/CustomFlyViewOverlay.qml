@@ -30,7 +30,7 @@ Item {
 
     property var    _activeVehicle:         QGroundControl.multiVehicleManager.activeVehicle
     property real   _indicatorDiameter:     ScreenTools.defaultFontPixelWidth * 18
-    property real   _indicatorsHeight:      ScreenTools.defaultFontPixelHeight
+    property real   _indicatorsHeight:      ScreenTools.defaultFontPixelHeight * ScreenTools.mediumFontPointRatio
     property var    _sepColor:              qgcPal.globalTheme === QGCPalette.Light ? Qt.rgba(0,0,0,0.5) : Qt.rgba(1,1,1,0.5)
     property color  _indicatorsColor:       qgcPal.text
     property bool   _isVehicleGps:          _activeVehicle ? _activeVehicle.gps.count.rawValue > 1 && _activeVehicle.gps.hdop.rawValue < 1.4 : false
@@ -59,6 +59,7 @@ Item {
         bottomEdgeRightInset:   parent.height - vehicleIndicator.y
         bottomEdgeCenterInset:  bottomEdgeRightInset
     }
+
 
     //-------------------------------------------------------------------------
     //-- Heading Indicator
@@ -235,7 +236,7 @@ Item {
                     return "00:00:00"
                 }
                 color:                  _indicatorsColor
-                font.pointSize:         ScreenTools.smallFontPointSize
+                font.pointSize:         ScreenTools.smallFontPointSize * ScreenTools.mediumFontPointRatio
                 Layout.fillWidth:       true
                 Layout.minimumWidth:    indicatorValueWidth
                 horizontalAlignment:    Text.AlignLeft

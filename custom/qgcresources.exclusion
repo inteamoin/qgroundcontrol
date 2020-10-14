@@ -1,4 +1,4 @@
         <file alias="PaperPlane.svg">src/ui/toolbar/Images/PaperPlane.svg</file>
-	<file alias="QGCLogoFull">resources/QGCLogoFull</file>
+	<file alias="/res/QGCLogoFull.svg">resources/QGCLogoFull</file>
         <file alias="QGroundControl/FlightDisplay/FlyViewCustomLayer.qml">src/FlightDisplay/FlyViewCustomLayer.qml</file>
 

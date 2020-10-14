@@ -54,6 +54,7 @@ Item {
     readonly property string vtolTransitionTitle:           qsTr("VTOL Transition")
     readonly property string roiTitle:                      qsTr("ROI")
     readonly property string actionListTitle:               qsTr("Action")
+    readonly property string setServoTile:                  qsTr("Drop Payload")
 
     readonly property string armMessage:                        qsTr("Arm the vehicle.")
     readonly property string forceArmMessage:                   qsTr("WARNING: This will force arming of the vehicle bypassing any safety checks.")
@@ -75,6 +76,7 @@ Item {
     readonly property string vtolTransitionFwdMessage:          qsTr("Transition VTOL to fixed wing flight.")
     readonly property string vtolTransitionMRMessage:           qsTr("Transition VTOL to multi-rotor flight.")
     readonly property string roiMessage:                        qsTr("Make the specified location a Region Of Interest.")
+    readonly property string setServoMessage:                   qsTr("Are you really sure you want to drop payload?")
 
     readonly property int actionRTL:                        1
     readonly property int actionLand:                       2
@@ -100,6 +102,7 @@ Item {
     readonly property int actionROI:                        22
     readonly property int actionActionList:                 23
     readonly property int actionForceArm:                   24
+    readonly property int cmdSetServo:                      25
 
     property var    _activeVehicle:             QGroundControl.multiVehicleManager.activeVehicle
     property bool   _useChecklist:              QGroundControl.settingsManager.appSettings.useChecklist.rawValue && QGroundControl.corePlugin.options.preFlightChecklistUrl.toString().length
@@ -157,6 +160,7 @@ Item {
     property bool __roiSupported:           _activeVehicle ? !_hideROI && _activeVehicle.roiModeSupported : false
     property bool __orbitSupported:         _activeVehicle ? !_hideOrbit && _activeVehicle.orbitModeSupported : false
     property bool __flightMode:             _flightMode
+    property int confirmCount: 0
 
     function _outputState() {
         if (_corePlugin.guidedActionsControllerLogging()) {
@@ -449,6 +453,14 @@ Item {
             confirmDialog.message = roiMessage
             confirmDialog.hideTrigger = Qt.binding(function() { return !showROI })
             break;
+        case cmdSetServo:
+            confirmCount++
+            confirmDialog.title = setServoTile
+            if(confirmCount == 1)
+                confirmDialog.message = setServoMessage
+            else if(confirmCount == 2)
+                confirmDialog.message = "Please confirm again to drop payload"
+            break;
         case actionActionList:
             actionList.show()
             return
@@ -457,6 +469,9 @@ Item {
             return
         }
         confirmDialog.show(showImmediate)
+        if(!confirmDialog.dialogResult){
+            confirmCount = 0
+        }
     }
 
     // Executes the specified action
@@ -533,6 +548,15 @@ Item {
         case actionROI:
             _activeVehicle.guidedModeROI(actionData)
             break
+        case cmdSetServo:
+            if(confirmCount <= 1)
+            {
+                confirmAction(cmdSetServo)
+                return;
+            }
+            confirmCount = 0
+            _activeVehicle.openBombDoor()
+            break;
         default:
             console.warn(qsTr("Internal error: unknown actionCode"), actionCode)
             break

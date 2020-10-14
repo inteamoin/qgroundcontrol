@@ -34,7 +34,7 @@ ColumnLayout {
     QGCColoredImage {
         id:                         valueIcon
         Layout.alignment:           _verticalOrientation ? Qt.AlignHCenter : Qt.AlignVCenter
-        height:                     _tightHeight * 0.75
+        height:                     _tightHeight * 1.5
         width:                      height
         sourceSize.height:          height
         fillMode:                   Image.PreserveAspectFit

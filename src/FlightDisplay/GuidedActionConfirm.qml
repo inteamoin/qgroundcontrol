@@ -37,6 +37,7 @@ Rectangle {
 
     property real _margins:         ScreenTools.defaultFontPixelWidth / 2
     property bool _emergencyAction: action === guidedController.actionEmergencyStop
+    property bool dialogResult:     false
 
     Component.onCompleted: guidedController.confirmDialog = this
 
@@ -112,6 +113,7 @@ Rectangle {
                         altitudeSlider.visible = false
                     }
                     hideTrigger = false
+                    dialogResult = true
                     guidedController.executeAction(_root.action, _root.actionData, altitudeChange, _root.optionChecked)
                     if (mapIndicator) {
                         mapIndicator.actionConfirmed()
@@ -135,8 +137,11 @@ Rectangle {
                 }
 
                 QGCMouseArea {
-                    fillItem:   parent
-                    onClicked:  confirmCancelled()
+                    fillItem:       parent
+                    onClicked:  {
+                        confirmCancelled()
+                        dialogResult = false
+                    }
                 }
             }
         }

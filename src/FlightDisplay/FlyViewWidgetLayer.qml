@@ -119,6 +119,32 @@ Item {
         property real rightInset: visible ? parent.width - x : 0
     }
 
+    Rectangle{
+        id:                                     dropPayloadArea
+        color:                                  qgcPal.window
+        anchors.margins:                        _toolsMargin
+        anchors.top:                            parent.top//instrumentPanel.bottom
+        anchors.right:                          parent.right
+        anchors.horizontalCenter:               instrumentPanel.horizontalCenter
+        width:                                  _dropPayload.width//_rightPanelWidth
+        height:                                 _dropPayload.height * 2//_dropPayload.height * 2
+        //visible:                                QGroundControl.corePlugin.options.flyView.showInstrumentPanel && multiVehiclePanelSelector.showSingleVehiclePanel
+
+
+        QGCButton{
+            id:                                 _dropPayload
+            text:                               qsTr("Drop payload")
+            anchors.verticalCenter:             parent.verticalCenter
+            anchors.horizontalCenter:           parent.horizontalCenter
+
+            onClicked: {
+                _guidedController.closeAll()
+                _guidedController.confirmAction(_guidedController.cmdSetServo)
+                console.log("Clicked !")
+            }
+        }
+    }
+
     PhotoVideoControl {
         anchors.margins:        _toolsMargin
         anchors.verticalCenter: parent.verticalCenter
@@ -131,7 +157,6 @@ Item {
         x:                  recalcXPosition()
         anchors.margins:    _toolsMargin
         anchors.bottom:     parent.bottom
-
         function recalcXPosition() {
             // First try centered
             var halfRootWidth   = _root.width / 2

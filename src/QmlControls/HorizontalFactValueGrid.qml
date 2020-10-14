@@ -88,6 +88,7 @@ T.HorizontalFactValueGrid {
                             Layout.column:          labelRepeater._index * 3
                             Layout.fillHeight:      true
                             Layout.alignment:       Qt.AlignRight
+                            Layout.margins: 5
                             instrumentValueData:    object
                         }
                     }

@@ -2154,6 +2154,28 @@ void Vehicle::forceArm(void)
                    2989);   // force arm
 }
 
+void Vehicle::openBombDoor()
+{
+    sendMavCommand(_defaultComponentId,
+                   MAV_CMD_DO_SET_SERVO,
+                   true,
+                   9,
+                   1800);
+    QTimer::singleShot(5000, this, &Vehicle::_closeBombDoor);
+    qCDebug(VehicleLog) << "Opened bomb door !";
+
+}
+
+void Vehicle::_closeBombDoor()
+{
+    qCDebug(VehicleLog) << "Closing bomb door !";
+    sendMavCommand(_defaultComponentId,
+                   MAV_CMD_DO_SET_SERVO,
+                   true,
+                   9,
+                   1000);
+}
+
 bool Vehicle::flightModeSetAvailable()
 {
     return _firmwarePlugin->isCapable(this, FirmwarePlugin::SetFlightModeCapability);
