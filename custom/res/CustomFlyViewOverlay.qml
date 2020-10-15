@@ -135,29 +135,24 @@ Item {
     Rectangle {
         id:                     vehicleIndicator
         color:                  qgcPal.window
-        width:                  vehicleStatusGrid.width  + (ScreenTools.defaultFontPixelWidth  * 3)
-        height:                 vehicleStatusGrid.height + (ScreenTools.defaultFontPixelHeight * 1.5)
+        width:                  attitudeIndicator.width * 0.5//vehicleStatusGrid.width  + (ScreenTools.defaultFontPixelWidth  * 3)
+        height:                 attitudeIndicator.height * 0.5//vehicleStatusGrid.height + (ScreenTools.defaultFontPixelHeight * 1.5)
         radius:                 2
         //anchors.bottomMargin:   parentToolInsets.bottomEdgeRightInset
         anchors.bottom:         parent.bottom
         anchors.bottomMargin:   _toolsMargin
         anchors.right:          attitudeIndicator.left
-        anchors.rightMargin:    -ScreenTools.defaultFontPixelWidth
+        anchors.rightMargin:    10
 
-        GridLayout {
-            id:                     vehicleStatusGrid
-            columnSpacing:          ScreenTools.defaultFontPixelWidth  * 1.5
-            rowSpacing:             ScreenTools.defaultFontPixelHeight * 0.5
-            columns:                7
-            anchors.centerIn:       parent
+//        GridLayout {
+//            id:                     vehicleStatusGrid
+//            columnSpacing:          ScreenTools.defaultFontPixelWidth  * 1.5
+//            rowSpacing:             ScreenTools.defaultFontPixelHeight * 0.5
+//            columns:                7
+//            anchors.centerIn:       parent
 
             //-- Compass
-            Item {
-                Layout.rowSpan:         3
-                Layout.column:          6
-                Layout.minimumWidth:    parent.height * 1.25
-                Layout.fillHeight:      true
-                Layout.fillWidth:       true
+
                 //-- Large circle
                 Rectangle {
                     height:             parent.height
@@ -216,127 +211,127 @@ Item {
                         anchors.centerIn:   parent
                     }
                 }
-            }
+
             //-- Second Row
             //-- Chronometer
-            QGCColoredImage {
-                height:                 _indicatorsHeight
-                width:                  height
-                source:                 "/custom/img/chronometer.svg"
-                fillMode:               Image.PreserveAspectFit
-                sourceSize.height:      height
-                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
-                color:                  qgcPal.text
-            }
-            QGCLabel {
-                id:                     firstLabel
-                text: {
-                    if(_activeVehicle)
-                        return secondsToHHMMSS(_activeVehicle.getFact("flightTime").value)
-                    return "00:00:00"
-                }
-                color:                  _indicatorsColor
-                font.pointSize:         ScreenTools.smallFontPointSize * ScreenTools.mediumFontPointRatio
-                Layout.fillWidth:       true
-                Layout.minimumWidth:    indicatorValueWidth
-                horizontalAlignment:    Text.AlignLeft
-            }
+//            QGCColoredImage {
+//                height:                 _indicatorsHeight
+//                width:                  height
+//                source:                 "/custom/img/chronometer.svg"
+//                fillMode:               Image.PreserveAspectFit
+//                sourceSize.height:      height
+//                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+//                color:                  qgcPal.text
+//            }
+//            QGCLabel {
+//                id:                     firstLabel
+//                text: {
+//                    if(_activeVehicle)
+//                        return secondsToHHMMSS(_activeVehicle.getFact("flightTime").value)
+//                    return "00:00:00"
+//                }
+//                color:                  _indicatorsColor
+//                font.pointSize:         ScreenTools.smallFontPointSize * ScreenTools.mediumFontPointRatio
+//                Layout.fillWidth:       true
+//                Layout.minimumWidth:    indicatorValueWidth
+//                horizontalAlignment:    Text.AlignLeft
+//            }
             //-- Ground Speed
-            QGCColoredImage {
-                height:                 _indicatorsHeight
-                width:                  height
-                source:                 "/custom/img/horizontal_speed.svg"
-                fillMode:               Image.PreserveAspectFit
-                sourceSize.height:      height
-                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
-                color:                  qgcPal.text
-            }
-            QGCLabel {
-                text:                   _activeVehicle ? _activeVehicle.groundSpeed.value.toFixed(1) + ' ' + _activeVehicle.groundSpeed.units : "0.0"
-                color:                  _indicatorsColor
-                font.pointSize:         ScreenTools.smallFontPointSize
-                Layout.fillWidth:       true
-                Layout.minimumWidth:    indicatorValueWidth
-                horizontalAlignment:    firstLabel.horizontalAlignment
-            }
-            //-- Vertical Speed
-            QGCColoredImage {
-                height:                 _indicatorsHeight
-                width:                  height
-                source:                 "/custom/img/vertical_speed.svg"
-                fillMode:               Image.PreserveAspectFit
-                sourceSize.height:      height
-                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
-                color:                  qgcPal.text
+//            QGCColoredImage {
+//                height:                 _indicatorsHeight
+//                width:                  height
+//                source:                 "/custom/img/horizontal_speed.svg"
+//                fillMode:               Image.PreserveAspectFit
+//                sourceSize.height:      height
+//                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+//                color:                  qgcPal.text
+//            }
+//            QGCLabel {
+//                text:                   _activeVehicle ? _activeVehicle.groundSpeed.value.toFixed(1) + ' ' + _activeVehicle.groundSpeed.units : "0.0"
+//                color:                  _indicatorsColor
+//                font.pointSize:         ScreenTools.smallFontPointSize
+//                Layout.fillWidth:       true
+//                Layout.minimumWidth:    indicatorValueWidth
+//                horizontalAlignment:    firstLabel.horizontalAlignment
+//            }
+//            //-- Vertical Speed
+//            QGCColoredImage {
+//                height:                 _indicatorsHeight
+//                width:                  height
+//                source:                 "/custom/img/vertical_speed.svg"
+//                fillMode:               Image.PreserveAspectFit
+//                sourceSize.height:      height
+//                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+//                color:                  qgcPal.text
 
-            }
-            QGCLabel {
-                text:                   _activeVehicle ? _activeVehicle.climbRate.value.toFixed(1) + ' ' + _activeVehicle.climbRate.units : "0.0"
-                color:                  _indicatorsColor
-                font.pointSize:         ScreenTools.smallFontPointSize
-                Layout.fillWidth:       true
-                Layout.minimumWidth:    indicatorValueWidth
-                horizontalAlignment:    firstLabel.horizontalAlignment
-            }
+//            }
+//            QGCLabel {
+//                text:                   _activeVehicle ? _activeVehicle.climbRate.value.toFixed(1) + ' ' + _activeVehicle.climbRate.units : "0.0"
+//                color:                  _indicatorsColor
+//                font.pointSize:         ScreenTools.smallFontPointSize
+//                Layout.fillWidth:       true
+//                Layout.minimumWidth:    indicatorValueWidth
+//                horizontalAlignment:    firstLabel.horizontalAlignment
+//            }
             //-- Third Row
             //-- Odometer
-            QGCColoredImage {
-                height:                 _indicatorsHeight
-                width:                  height
-                source:                 "/custom/img/odometer.svg"
-                fillMode:               Image.PreserveAspectFit
-                sourceSize.height:      height
-                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
-                color:                  qgcPal.text
+//            QGCColoredImage {
+//                height:                 _indicatorsHeight
+//                width:                  height
+//                source:                 "/custom/img/odometer.svg"
+//                fillMode:               Image.PreserveAspectFit
+//                sourceSize.height:      height
+//                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+//                color:                  qgcPal.text
 
-            }
-            QGCLabel {
-                text:                   _activeVehicle ? ('00000' + _activeVehicle.flightDistance.value.toFixed(0)).slice(-5) + ' ' + _activeVehicle.flightDistance.units : "00000"
-                color:                  _indicatorsColor
-                font.pointSize:         ScreenTools.smallFontPointSize
-                Layout.fillWidth:       true
-                Layout.minimumWidth:    indicatorValueWidth
-                horizontalAlignment:    firstLabel.horizontalAlignment
-            }
-            //-- Altitude
-            QGCColoredImage {
-                height:                 _indicatorsHeight
-                width:                  height
-                source:                 "/custom/img/altitude.svg"
-                fillMode:               Image.PreserveAspectFit
-                sourceSize.height:      height
-                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
-                color:                  qgcPal.text
+//            }
+//            QGCLabel {
+//                text:                   _activeVehicle ? ('00000' + _activeVehicle.flightDistance.value.toFixed(0)).slice(-5) + ' ' + _activeVehicle.flightDistance.units : "00000"
+//                color:                  _indicatorsColor
+//                font.pointSize:         ScreenTools.smallFontPointSize
+//                Layout.fillWidth:       true
+//                Layout.minimumWidth:    indicatorValueWidth
+//                horizontalAlignment:    firstLabel.horizontalAlignment
+//            }
+//            //-- Altitude
+//            QGCColoredImage {
+//                height:                 _indicatorsHeight
+//                width:                  height
+//                source:                 "/custom/img/altitude.svg"
+//                fillMode:               Image.PreserveAspectFit
+//                sourceSize.height:      height
+//                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+//                color:                  qgcPal.text
 
-            }
-            QGCLabel {
-                text:                   _altitude
-                color:                  _indicatorsColor
-                font.pointSize:         ScreenTools.smallFontPointSize
-                Layout.fillWidth:       true
-                Layout.minimumWidth:    indicatorValueWidth
-                horizontalAlignment:    firstLabel.horizontalAlignment
-            }
+//            }
+//            QGCLabel {
+//                text:                   _altitude
+//                color:                  _indicatorsColor
+//                font.pointSize:         ScreenTools.smallFontPointSize
+//                Layout.fillWidth:       true
+//                Layout.minimumWidth:    indicatorValueWidth
+//                horizontalAlignment:    firstLabel.horizontalAlignment
+//            }
             //-- Distance
-            QGCColoredImage {
-                height:                 _indicatorsHeight
-                width:                  height
-                source:                 "/custom/img/distance.svg"
-                fillMode:               Image.PreserveAspectFit
-                sourceSize.height:      height
-                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
-                color:                  qgcPal.text
+//            QGCColoredImage {
+//                height:                 _indicatorsHeight
+//                width:                  height
+//                source:                 "/custom/img/distance.svg"
+//                fillMode:               Image.PreserveAspectFit
+//                sourceSize.height:      height
+//                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+//                color:                  qgcPal.text
 
-            }
-            QGCLabel {
-                text:                   _distance ? _distanceStr : noGPS
-                color:                  _distance ? _indicatorsColor : qgcPal.colorOrange
-                font.pointSize:         ScreenTools.smallFontPointSize
-                Layout.fillWidth:       true
-                Layout.minimumWidth:    indicatorValueWidth
-                horizontalAlignment:    firstLabel.horizontalAlignment
-            }
-        }
+//            }
+//            QGCLabel {
+//                text:                   _distance ? _distanceStr : noGPS
+//                color:                  _distance ? _indicatorsColor : qgcPal.colorOrange
+//                font.pointSize:         ScreenTools.smallFontPointSize
+//                Layout.fillWidth:       true
+//                Layout.minimumWidth:    indicatorValueWidth
+//                horizontalAlignment:    firstLabel.horizontalAlignment
+//            }
+//        }
     }
     //-------------------------------------------------------------------------
     //-- Attitude Indicator

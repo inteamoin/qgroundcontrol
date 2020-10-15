@@ -130,7 +130,22 @@ Item {
         height:                                 _dropPayload.height * 2//_dropPayload.height * 2
         //visible:                                QGroundControl.corePlugin.options.flyView.showInstrumentPanel && multiVehiclePanelSelector.showSingleVehiclePanel
 
-
+        Image {
+            id:                         compassNeedle
+            anchors.right:              _dropPayload.left
+            anchors.top:                _dropPayload.top
+            height:                     _dropPayload.height
+            width:                      height
+            source:                     "/res/drop-bomb.svg"
+            fillMode:                   Image.PreserveAspectFit
+            sourceSize.height:          height
+//            transform: [
+//                Rotation {
+//                    origin.x:   compassNeedle.width  / 2
+//                    origin.y:   compassNeedle.height / 2
+//                    angle:      _heading
+//                }]
+        }
         QGCButton{
             id:                                 _dropPayload
             text:                               qsTr("Drop payload")
