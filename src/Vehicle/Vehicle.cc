@@ -2160,7 +2160,7 @@ void Vehicle::openBombDoor()
                    MAV_CMD_DO_SET_SERVO,
                    true,
                    9,
-                   1800);
+                   1500);
     QTimer::singleShot(5000, this, &Vehicle::_closeBombDoor);
     qCDebug(VehicleLog) << "Opened bomb door !";
 
@@ -2173,7 +2173,7 @@ void Vehicle::_closeBombDoor()
                    MAV_CMD_DO_SET_SERVO,
                    true,
                    9,
-                   1000);
+                   800);
 }
 
 bool Vehicle::flightModeSetAvailable()

@@ -37,7 +37,8 @@ Rectangle {
 
     property real _margins:         ScreenTools.defaultFontPixelWidth / 2
     property bool _emergencyAction: action === guidedController.actionEmergencyStop
-    property bool dialogResult:     false
+    property bool dialogResult:     true
+    property int countDown: 30
 
     Component.onCompleted: guidedController.confirmDialog = this
 
@@ -50,11 +51,21 @@ Rectangle {
     function show(immediate) {
         if (immediate) {
             visible = true
+            slider.visible = true
+            countDownTxt.visible = false
         } else {
             // We delay showing the confirmation for a small amount in order for any other state
             // changes to propogate through the system. This way only the final state shows up.
             visibleTimer.restart()
         }
+    }
+
+    function showCountDown(){
+        visible = true
+        slider.visible = false
+        countDownTxt.visible = true
+        countDown = 30
+        countDownTimer.restart()
     }
 
     function confirmCancelled() {
@@ -72,7 +83,37 @@ Rectangle {
         id:             visibleTimer
         interval:       1000
         repeat:         false
-        onTriggered:    visible = true
+        onTriggered:    {
+            slider.visible = true
+            visible = true
+            countDownTxt.visible = false
+        }
+    }
+
+    Timer {
+        id:     countDownTimer
+        interval: 1000
+        repeat: true
+        onTriggered: {
+            if(countDown <= 0){
+                countDownTimer.stop()
+                _root.visible = false
+                var altitudeChange = 0
+                if (altitudeSlider.visible) {
+                    altitudeChange = altitudeSlider.getAltitudeChangeValue()
+                    altitudeSlider.visible = false
+                }
+                hideTrigger = false
+                dialogResult = true
+                guidedController.executeAction(_root.action, _root.actionData, altitudeChange, _root.optionChecked)
+                if (mapIndicator) {
+                    mapIndicator.actionConfirmed()
+                    mapIndicator = undefined
+                }
+            }
+            else
+                countDown--
+        }
     }
 
     QGCPalette { id: qgcPal }
@@ -121,6 +162,25 @@ Rectangle {
                     }
                 }
             }
+
+            Rectangle {
+                id:                 countDownTxt
+                implicitWidth:      label.contentWidth + (_diameter * 2.5) + (_border * 4)
+                implicitHeight:     label.height * 2.5
+                radius:             height /2
+                color:              qgcPal.colorRed
+                property real _border: 4
+                property real _diameter: height - (_border * 2)
+
+                QGCLabel {
+                    id:                 label
+                    anchors.centerIn:   parent
+                    text:               countDown + " seconds to release !"
+
+                }
+            }
+
+
 
             Rectangle {
                 height: slider.height * 0.75

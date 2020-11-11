@@ -151,11 +151,10 @@ Item {
             text:                               qsTr("Drop payload")
             anchors.verticalCenter:             parent.verticalCenter
             anchors.horizontalCenter:           parent.horizontalCenter
-
             onClicked: {
+                _guidedController.resetPayloadDrop()
                 _guidedController.closeAll()
                 _guidedController.confirmAction(_guidedController.cmdSetServo)
-                console.log("Clicked !")
             }
         }
     }

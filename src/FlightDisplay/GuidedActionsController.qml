@@ -160,7 +160,7 @@ Item {
     property bool __roiSupported:           _activeVehicle ? !_hideROI && _activeVehicle.roiModeSupported : false
     property bool __orbitSupported:         _activeVehicle ? !_hideOrbit && _activeVehicle.orbitModeSupported : false
     property bool __flightMode:             _flightMode
-    property int confirmCount: 0
+    property int confirmCount:              0
 
     function _outputState() {
         if (_corePlugin.guidedActionsControllerLogging()) {
@@ -315,6 +315,10 @@ Item {
         altitudeSlider.visible =    false
     }
 
+    function resetPayloadDrop(){
+        confirmCount = 0;
+    }
+
     // Called when an action is about to be executed in order to confirm
     function confirmAction(actionCode, actionData, mapIndicator) {
         var showImmediate = true
@@ -460,6 +464,11 @@ Item {
                 confirmDialog.message = setServoMessage
             else if(confirmCount == 2)
                 confirmDialog.message = "Please confirm again to drop payload"
+            else if(confirmCount == 3) {
+                confirmDialog.message = "Counting down for bomb release!"
+                confirmDialog.showCountDown()
+                return;
+            }
             break;
         case actionActionList:
             actionList.show()
@@ -469,7 +478,7 @@ Item {
             return
         }
         confirmDialog.show(showImmediate)
-        if(!confirmDialog.dialogResult){
+        if(confirmCount > 1 && !confirmDialog.dialogResult){
             confirmCount = 0
         }
     }
@@ -549,7 +558,7 @@ Item {
             _activeVehicle.guidedModeROI(actionData)
             break
         case cmdSetServo:
-            if(confirmCount <= 1)
+            if(confirmCount <= 2)
             {
                 confirmAction(cmdSetServo)
                 return;
